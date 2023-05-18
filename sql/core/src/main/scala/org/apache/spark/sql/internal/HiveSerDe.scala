@@ -63,7 +63,15 @@ object HiveSerDe {
       HiveSerDe(
         inputFormat = Option("org.apache.hadoop.hive.ql.io.avro.AvroContainerInputFormat"),
         outputFormat = Option("org.apache.hadoop.hive.ql.io.avro.AvroContainerOutputFormat"),
-        serde = Option("org.apache.hadoop.hive.serde2.avro.AvroSerDe")))
+                serde = Option("org.apache.hadoop.hive.serde2.avro.AvroSerDe")),
+
+    "delta" ->
+      HiveSerDe(
+        inputFormat = Option("org.apache.hadoop.mapred.SequenceFileInputFormat"),
+        outputFormat = Option("org.apache.hadoop.hive.ql.io.HiveSequenceFileOutputFormat"),
+        serde = Option("org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe")
+      )
+  )
 
   // `HiveSerDe` in `serdeMap` should be distinct.
   val serdeInverseMap: Map[HiveSerDe, String] = serdeMap.flatMap {
